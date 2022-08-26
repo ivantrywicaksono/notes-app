@@ -1,12 +1,11 @@
 import React from "react";
 
 function SearchBar(props) {
-     return (
-        <div>
-            <h2>Search</h2>
-            <input type="text"/>
-        </div>
-     );
+  return (
+    <div className="note-search">
+        <input type="text" placeholder="Search note..."/>
+    </div>
+  );
 }
 
 export default SearchBar;
