@@ -1,11 +1,11 @@
 import React from "react";
 import Item from "./Item";
 
-function List({notes, onDelete}) {
+function List({items, onDelete, onArchive}) {
   return (
     <div className="notes-list">
       {
-        notes.map(note => (<Item key={note.id} {...note} onDelete={onDelete}/>))
+        items.map(note => (<Item key={note.id} {...note} onDelete={onDelete} onArchive={onArchive}/>))
       }
     </div>
   );

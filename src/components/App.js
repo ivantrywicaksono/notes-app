@@ -1,29 +1,67 @@
 import React from 'react';
 import ConditionalRender from './ConditionalRender'
-import SearchBar from './SearchBar';
-import Item from './Item';
-import { getInitialData, showFormattedDate } from '../utils/index';
 import List from './List';
+import NoteForm from './NoteForm';
+import { getInitialData } from '../utils/index';
+
+// Menampilkan items: X
+// Menghapus items: X
+// Menambahkan items: X
+// Pakai Bahasa Indonesia: X
+
+// Limit Karakter Input Judul: 
+// Fitur Pencarian: 
+// Archive: 
+// SVG Delete, Archive: 
+// Buat button component
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      searchTitle: "",
       notes: getInitialData(),
     }
 
     this.onDeleteEventHandler = this.onDeleteEventHandler.bind(this);
+    this.onAddEventHandler = this.onAddEventHandler.bind(this);
+    this.onArchiveEventHandler = this.onArchiveEventHandler.bind(this);
+  }
+
+  onAddEventHandler({ title, body }) {
+    this.setState(prevState => {
+      return {
+        notes: [
+          ...prevState.notes,
+          {
+            title,
+            body,
+            id: Date.now(),
+            archived: false,
+            createdAt: new Date().toISOString(),
+          }
+        ]
+      }
+    });
   }
 
   onDeleteEventHandler(id) {
-    console.log("delete");
-    console.log(this.state.notes);
     this.setState({
       notes: this.state.notes.filter(note => note.id !== id)
     });
-    console.log(this.state.notes);
+  }
+
+  onArchiveEventHandler(id) {
+    this.setState({
+      notes: this.state.notes.map(note => {
+        if (note.id === id) {
+          note.archived = !note.archived;
+          return note;
+        }
+
+        return note;
+      })
+    });
   }
     
   render() {
@@ -37,20 +75,25 @@ class App extends React.Component {
         <>
           <div className='note-app__header'>
             <h1>Notes</h1>
-            <SearchBar />
           </div>
 
           <div className='note-app__body'>
+            <div className='note-input'>
+              <h2>Buat Catatan</h2>
+              <NoteForm onAdd={this.onAddEventHandler}/>
+            </div>
             <section>
-              <h2>Active Notes</h2>
+              <h2>Catatan Aktif</h2>
               <ConditionalRender condition={activeNotes.length > 0}>
-                <List notes={activeNotes} onDelete={this.onDeleteEventHandler}/>
+                <List items={activeNotes} onDelete={this.onDeleteEventHandler} onArchive={this.onArchiveEventHandler}/>
               </ConditionalRender>
             </section>
 
             <section>
-              <h2>Archive</h2>
-              <ConditionalRender condition={archivedNotes.length > 0}></ConditionalRender>
+              <h2>Arsip</h2>
+              <ConditionalRender condition={archivedNotes.length > 0}>
+                <List items={archivedNotes} onDelete={this.onDeleteEventHandler} onArchive={this.onArchiveEventHandler}/>
+              </ConditionalRender>
             </section>
           </div>
         </> 

@@ -1,4 +1,4 @@
-const getInitialData = () => ([
+ const getInitialData = () => ([
   {
     id: 1,
     title: "Babel",
