@@ -4,17 +4,6 @@ import List from './List';
 import NoteForm from './NoteForm';
 import { getInitialData } from '../utils/index';
 
-// Menampilkan items: X
-// Menghapus items: X
-// Menambahkan items: X
-// Pakai Bahasa Indonesia: X
-
-// Limit Karakter Input Judul: 
-// Fitur Pencarian: 
-// Archive: 
-// SVG Delete, Archive: 
-// Buat button component
-
 class App extends React.Component {
   constructor(props) {
     super(props);
